@@ -92,3 +92,5 @@ class Graph:
         for neighbor in self.vertices[starting_vertex_id]:
             if self.vertices[neighbor] == starting_vertex_id: return
             self.dft_recursive(neighbor, visited)
+    def bfs_path(self, starting_vertex_id, destination_vertex_id):
+        pass
