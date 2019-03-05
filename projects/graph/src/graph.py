@@ -93,4 +93,22 @@ class Graph:
             if self.vertices[neighbor] == starting_vertex_id: return
             self.dft_recursive(neighbor, visited)
     def bfs_path(self, starting_vertex_id, destination_vertex_id):
-        pass
+        # Create an empty queue
+        q = Queue()
+        # Create an empty set of visited vertices
+        visited = set()
+        # Put the starting vertex in our Queue
+        q.enqueue(starting_vertex_id)
+        # While the queue is not empty....
+        while q.size() > 0:
+           # Dequeue the first node from the queue
+           v = q.dequeue()
+           # If that node has not been visted...
+           if v not in visited:
+              # Mark it as visited
+              print(v)
+              if destination_vertex_id == v: break
+              visited.add(v)
+              # Then, put all of it's children into the queue
+              for neighbor in self.vertices[v]:
+                  q.enqueue(neighbor)
