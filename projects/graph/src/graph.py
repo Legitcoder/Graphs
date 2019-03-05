@@ -105,23 +105,27 @@ class Graph:
         # While the queue is not empty....
         while q.size() > 0:
            # Dequeue the first node from the queue
-           v = q.dequeue()
+           path = q.dequeue()
+           v = path[-1]
            # If that node has not been visted...
            if v not in visited:
               # Mark it as visited
-              print(v)
-              if destination_vertex_id == v: break
+              #print(v)
+              if destination_vertex_id == v: return path
               visited.add(v)
               # Then, put all of it's children into the queue
               for neighbor in self.vertices[v]:
-                  q.enqueue(neighbor)
+                  new_path = list(path)
+                  new_path.append(neighbor)
+                  q.enqueue(new_path)
 
         if q.size() == 0 and destination_vertex_id not in visited:
             print("Destination vertex does not exist.")
-            return
+            return []
     def dfs_path(self, starting_vertex_id, destination_vertex_id):
         # Create an empty stack
         s = Stack()
+        nodes = []
         # Create an empty set of visited vertices
         visited = set()
         # Put the starting vertex in our Stack
@@ -134,11 +138,12 @@ class Graph:
             if v not in visited:
                 # Mark it as visited
                 print(v)
-                if destination_vertex_id == v: break
+                nodes.append(v)
+                if destination_vertex_id == v: return nodes
                 visited.add(v)
                 # Then, put all of it's children into the stack
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
         if s.size() == 0 and destination_vertex_id not in visited:
             print("Destination vertex does not exist.")
-            return
+            return []

@@ -28,7 +28,8 @@ def main():
     graph.add_directed_edge('3', '5')
     graph.add_directed_edge('2', '3')
     graph.add_directed_edge('4', '6')
-    graph.dft_recursive('1')
+    #graph.dft_recursive('1')
+    print(graph.bfs_path('1', '6'))
     #print(graph.vertices)
 
 if __name__ == '__main__':

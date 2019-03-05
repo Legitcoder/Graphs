@@ -54,23 +54,26 @@ class SocialGraph:
             self.addUser(f'user_{i}')
         ids = list(self.users.keys())
         i = 0
-        id_counter = 0
+        id_counter = 1
         while i < numUsers*avgFriendships/2:
             friendship_created = False
+            #This loop runs until a friend is created
             while not friendship_created:
-                temp_ids = [id for id in ids if id != id_counter]
-                user_one = random.choice(temp_ids)
-                temp_ids.remove(user_one)
-                user_two = random.choice(temp_ids)
+                #Filter out id without current user id
+                filtered_ids = [id for id in ids if id != id_counter]
+                user_one = id_counter
+                user_two = random.choice(filtered_ids)
                 if user_one not in self.friendships[user_two] and user_two not in self.friendships[user_one]:
                     self.addFriendship(user_one, user_two)
                     friendship_created = True
                 else:
                     continue
-            id_counter = 0 if id_counter == 10 else id_counter + 1
+            #Counter that increments until the lastID and resets to 0
+            id_counter = 1 if id_counter == self.lastID else id_counter + 1
+            #Simple loop counter
             i += 1
         # Create friendships
-        # Check to see if length is consistent everytime to add up to average
+        # Check to see if length is consistent every time to add up to average
         set_len = 0
         for k, v in self.friendships.items():
             set_len += len(v)
