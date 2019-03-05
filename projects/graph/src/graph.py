@@ -86,7 +86,10 @@ class Graph:
               for neighbor in self.vertices[v]:
                   s.push(neighbor)
     def dft_recursive(self, starting_vertex_id, visited = {}):
-        if starting_vertex_id in visited: return
+        try:
+            if visited[starting_vertex_id]: return
+        except:
+            pass
         print(starting_vertex_id)
         visited[starting_vertex_id] = True
         for neighbor in self.vertices[starting_vertex_id]:
@@ -112,3 +115,30 @@ class Graph:
               # Then, put all of it's children into the queue
               for neighbor in self.vertices[v]:
                   q.enqueue(neighbor)
+
+        if q.size() == 0 and destination_vertex_id not in visited:
+            print("Destination vertex does not exist.")
+            return
+    def dfs_path(self, starting_vertex_id, destination_vertex_id):
+        # Create an empty stack
+        s = Stack()
+        # Create an empty set of visited vertices
+        visited = set()
+        # Put the starting vertex in our Stack
+        s.push(starting_vertex_id)
+        # While the stack is not empty....
+        while s.size() > 0:
+            # Pop the top node from the stack
+            v = s.pop()
+            # If that node has not been visted...
+            if v not in visited:
+                # Mark it as visited
+                print(v)
+                if destination_vertex_id == v: break
+                visited.add(v)
+                # Then, put all of it's children into the stack
+                for neighbor in self.vertices[v]:
+                    s.push(neighbor)
+        if s.size() == 0 and destination_vertex_id not in visited:
+            print("Destination vertex does not exist.")
+            return
