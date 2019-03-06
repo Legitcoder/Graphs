@@ -118,10 +118,6 @@ class Graph:
                   new_path = list(path)
                   new_path.append(neighbor)
                   q.enqueue(new_path)
-
-        if q.size() == 0 and destination_vertex_id not in visited:
-            print("Destination vertex does not exist.")
-            return []
     def dfs_path(self, starting_vertex_id, destination_vertex_id):
         # Create an empty stack
         s = Stack()
@@ -144,6 +140,3 @@ class Graph:
                 # Then, put all of it's children into the stack
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
-        if s.size() == 0 and destination_vertex_id not in visited:
-            print("Destination vertex does not exist.")
-            return []

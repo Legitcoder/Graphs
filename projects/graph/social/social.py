@@ -60,31 +60,21 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
-
-        # Add users
         for i in range(1, numUsers + 1):
             self.addUser(f'user_{i}')
         ids = list(self.users.keys())
         i = 0
-        id_counter = 1
         while i < numUsers*avgFriendships/2:
             friendship_created = False
-            #This loop runs until a friend is created
             while not friendship_created:
-                #Filter out id without current user id
-                filtered_ids = [id for id in ids if id != id_counter]
-                user_one = id_counter
+                filtered_ids = ids
+                user_one = random.choice(filtered_ids)
+                filtered_ids = [id for id in ids if id != user_one]
                 user_two = random.choice(filtered_ids)
                 if user_one not in self.friendships[user_two] and user_two not in self.friendships[user_one]:
                     self.addFriendship(user_one, user_two)
                     friendship_created = True
-            #Counter that increments until the lastID and resets to 0
-            id_counter = 1 if id_counter == self.lastID else id_counter + 1
-            #Simple loop counter
             i += 1
-        # Create friendships
-        # Check to see if length is consistent every time to add up to average
         set_len = 0
         for k, v in self.friendships.items():
             set_len += len(v)
@@ -102,7 +92,7 @@ class SocialGraph:
         """
         extended_network = {}
         user_ids = list(self.users.keys())
-        
+
         def bfs(start, destination):
             visited = {}
             q = Queue()
@@ -111,25 +101,26 @@ class SocialGraph:
                 path = q.dequeue()
                 v = path[-1]
                 if v not in visited:
-                    if destination == v:
-                        return path
+                    if destination == v: return path
                     visited[v] = True
-                for friend in self.friendships[v]:
-                    new_path = list(path)
-                    new_path.append(friend)
-                    q.enqueue(new_path)
+                    for friend in self.friendships[v]:
+                        new_path = list(path)
+                        new_path.append(friend)
+                        q.enqueue(new_path)
 
 
 
         for user_id in user_ids:
             extended_network[user_id] = bfs(userID, user_id)
 
+
+
         return extended_network
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(20, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
