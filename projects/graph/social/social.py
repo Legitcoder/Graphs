@@ -1,5 +1,18 @@
 import random
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return (len(self.queue))
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -66,8 +79,6 @@ class SocialGraph:
                 if user_one not in self.friendships[user_two] and user_two not in self.friendships[user_one]:
                     self.addFriendship(user_one, user_two)
                     friendship_created = True
-                else:
-                    continue
             #Counter that increments until the lastID and resets to 0
             id_counter = 1 if id_counter == self.lastID else id_counter + 1
             #Simple loop counter
@@ -89,9 +100,31 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        extended_network = {}
+        user_ids = list(self.users.keys())
+        
+        def bfs(start, destination):
+            visited = {}
+            q = Queue()
+            q.enqueue([start])
+            while q.size() > 0:
+                path = q.dequeue()
+                v = path[-1]
+                if v not in visited:
+                    if destination == v:
+                        return path
+                    visited[v] = True
+                for friend in self.friendships[v]:
+                    new_path = list(path)
+                    new_path.append(friend)
+                    q.enqueue(new_path)
+
+
+
+        for user_id in user_ids:
+            extended_network[user_id] = bfs(userID, user_id)
+
+        return extended_network
 
 
 if __name__ == '__main__':
