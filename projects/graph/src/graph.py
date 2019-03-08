@@ -85,7 +85,8 @@ class Graph:
               # Then, put all of it's children into the stack
               for neighbor in self.vertices[v]:
                   s.push(neighbor)
-    def dft_recursive(self, starting_vertex_id, visited = {}):
+    def dft_recursive(self, starting_vertex_id, visited = None):
+        if visited is None: visited = {}
         try:
             if visited[starting_vertex_id]: return
         except:
